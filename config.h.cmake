@@ -241,6 +241,9 @@
 #cmakedefine HAVE_VASPRINTF 1
 #cmakedefine HAVE_VSNPRINTF 1
 #cmakedefine HAVE_FTRUNCATE 1
+#cmakedefine HAVE_FTRUNCATE64 1
+#cmakedefine HAVE_OPEN64 1
+#cmakedefine HAVE_LSEEK64 1
 #cmakedefine HAVE_TZNAME 1
 /* Symbols we may use */
 #cmakedefine HAVE_SYS_ERRLIST 1
