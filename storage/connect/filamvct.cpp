@@ -64,6 +64,14 @@
 #define INVALID_SET_FILE_POINTER  ((DWORD)-1)
 #endif
 
+#if !defined(HAVE_OPEN64)
+#define open64(name, flags, mode) open(name, flags | O_LARGEFILE, mode)
+#endif
+
+#if !defined(HAVE_LSEEK64)
+#define lseek64 lseek
+#endif
+
 extern int num_read, num_there;                          // Statistics
 static int num_write;
 
@@ -3933,7 +3941,11 @@ int BGVFAM::DeleteRecords(PGLOBAL g, int irc)
           return RC_FX;
           } // endif error
 #else   // !_WIN32
+#if defined(HAVE_FTRUNCATE64)
         if (ftruncate64(Hfile, (BIGINT)(Tpos * Lrecl))) {
+#else
+        if (ftruncate(Hfile, (BIGINT)(Tpos * Lrecl))) {
+#endif
           snprintf(g->Message, sizeof(g->Message), MSG(TRUNCATE_ERROR), strerror(errno));
           return RC_FX;
           } // endif
